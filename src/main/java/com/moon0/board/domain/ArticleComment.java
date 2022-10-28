@@ -3,7 +3,7 @@ package com.moon0.board.domain;
 import java.time.LocalDateTime;
 
 public class ArticleComment {
-    /*domain1*/
+    /*domain*/
     private Long id;
     private Article article; //게시글 (id)
     private String content; //본문
