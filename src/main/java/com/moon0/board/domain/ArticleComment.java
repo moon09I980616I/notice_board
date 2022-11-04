@@ -1,72 +1,57 @@
 package com.moon0.board.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+@Getter
+@ToString
+@Table(indexes = {
+        @Index(columnList="content"),
+        @Index(columnList="createdAt"),
+        @Index(columnList="createdBy"),
+})
+@Entity
 public class ArticleComment {
-    /*domain*/
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Article article; //게시글 (id)
-    private String content; //본문
+    @Setter @ManyToOne(optional = false) private Article article; //게시글 (id)
+    @Setter @Column(nullable = false, length = 500) private String content; //본문
 
-    /*metadata*/
-    private LocalDateTime createdAt; //생성일시
-    private String createdBy; //생성자
-    private LocalDateTime modifiedAt; //수정일시
-    private String modifiedBy; //수정자
+    @CreatedDate @Column(nullable = false) private LocalDateTime createdAt; //생성일시
+    @CreatedBy @Column(nullable = false, length=100) private String createdBy; //생성자
+    @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; //수정일시
+    @LastModifiedBy @Column(nullable = false, length=100)private String modifiedBy; //수정자
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Article getArticle() {
-        return article;
-    }
-
-    public void setArticle(Article article) {
+    protected ArticleComment() {}
+    private ArticleComment(Article article, String content) {
         this.article = article;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public static ArticleComment of(Article article, String content) {
+        return new ArticleComment(article,content);
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArticleComment that)) return false;
+        return id!=null && id.equals(that.id);
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(String modifiedBy) {
-        this.modifiedBy = modifiedBy;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
