@@ -23,9 +23,8 @@ import java.util.Set;
         @Index(columnList="createdAt"),
         @Index(columnList="createdBy"),
 })
-@EntityListeners(AuditingEntityListener.class)
 @Entity
-public class Article {
+public class Article extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +40,6 @@ public class Article {
     @OrderBy("id")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); // 중복을 허용하지 않고 리스트를 보여주겠다.
-
-    @CreatedDate @Column(nullable = false) private LocalDateTime createdAt; //생성일시
-    @CreatedBy @Column(nullable = false, length=100) private String createdBy; //생성자
-    @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; //수정일시
-    @LastModifiedBy @Column(nullable = false, length=100)private String modifiedBy; //수정자
 
     /*jpa entity 는 기본 생성자를 가지고 있어야 하기 때문에 생성을 해주며, 평소에는 오픈하지 않을 것이기 때문에 public 이 아닌 protected 를 사용 */
     protected Article(){}
