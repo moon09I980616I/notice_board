@@ -1,12 +1,12 @@
-# 게시판 서비스 notice_board
-백엔드 웹 개발_게시판 만들기 프로젝트 자바 + 스프링부트
+# 게시판 notice_board
+java + spring project01_notice_board
 
-진행기간 : 10.26(수) ~ 10.31(월)
+진행기간 : 10.26(수) ~ 
 # 개발 환경
 - 개발도구 : Intellij IDEA Ultimate 2022.1
 - 언어 : java 1.8
 - 프레임워크 : springboot 2.7.0
-- 빌드 도구 : gradle 7.4.1
+- 빌드 도구 : gradle 7.5.1
 - 소스코드 관리 : Git 2.36.1
 - Git 호스팅 : GitHub
 - Gut GUI : GitKraken Pro 8.5.0
