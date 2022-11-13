@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList="title"),
         @Index(columnList="hashtag"),
@@ -31,27 +31,27 @@ public class Article extends AuditingFields {
     private Long id;
 
     //수정 가능한 것만 setter 처리
+    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
     @Setter @Column(nullable = false) private String title; //제목
     @Setter @Column(nullable = false, length=10000) private String content; //본문
 
     @Setter private String hashtag; //해시태그 null
 
     @ToString.Exclude
-    @OrderBy("id")
+    @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); // 중복을 허용하지 않고 리스트를 보여주겠다.
 
-    /*jpa entity 는 기본 생성자를 가지고 있어야 하기 때문에 생성을 해주며, 평소에는 오픈하지 않을 것이기 때문에 public 이 아닌 protected 를 사용 */
     protected Article(){}
 
-    private Article(String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+        this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
-    /*domain(Article) 생성 시 필요로 하는 값들*/
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+        return new Article(userAccount, title, content, hashtag);
     }
 
     @Override
