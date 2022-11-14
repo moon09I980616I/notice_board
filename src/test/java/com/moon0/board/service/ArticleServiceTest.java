@@ -7,7 +7,6 @@ import com.moon0.board.dto.ArticleDto;
 import com.moon0.board.dto.ArticleWithCommentsDto;
 import com.moon0.board.dto.UserAccountDto;
 import com.moon0.board.repository.ArticleRepository;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,14 +54,13 @@ class ArticleServiceTest {
         SearchType searchType = SearchType.TITLE;
         String searchKeyword = "title";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByTitle(searchKeyword, pageable)).willReturn(Page.empty());
-
+        given(articleRepository.findByTitleContaining(searchKeyword, pageable)).willReturn(Page.empty());
         // When
         Page<ArticleDto> articles = sut.searchArticles(searchType, searchKeyword, pageable);
 
         // Then
         assertThat(articles).isEmpty();
-        then(articleRepository).should().findByTitle(searchKeyword, pageable);
+        then(articleRepository).should().findByTitleContaining(searchKeyword, pageable);
     }
 
     @DisplayName("게시글 조회 -> 게시글 반환")
