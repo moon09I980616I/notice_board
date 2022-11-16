@@ -10,6 +10,10 @@
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
+        h1{margin-bottom: 2rem;}
+        #article-content{height:100%;}
+        #article-content>pre{height:100%;}
+    </style>
 </head>
 <body style="background: #e9ecef;">
 <header id="header"></header>
@@ -18,14 +22,13 @@
         <div class="card-body">
             <header><h1>첫번째 글</h1></header>
             <div class="row">
-                <div class="col-md-8 border-end">
-                    <article>
-                        <p>본문
-                            <br><br></p>
+                <div class="col-md-10 border-end">
+                    <article id="article-content">
+                        <pre>본문</pre>
 
                     </article>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-2 mb-3">
                     <section>
                         <aside>
                             <p>moon0</p>
