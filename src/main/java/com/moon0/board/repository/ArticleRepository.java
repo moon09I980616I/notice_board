@@ -2,6 +2,7 @@ package com.moon0.board.repository;
 
 import com.moon0.board.domain.Article;
 import com.moon0.board.domain.QArticle;
+import com.moon0.board.repository.querydsl.ArticleRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ArticleRepository extends
         JpaRepository<Article, Long>
+    , ArticleRepositoryCustom
     , QuerydslPredicateExecutor<Article> // Article 모든 필드에 검색 기능 추가
     , QuerydslBinderCustomizer<QArticle> // 검색 커스튬
 {
