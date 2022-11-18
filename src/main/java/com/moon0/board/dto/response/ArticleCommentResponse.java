@@ -1,4 +1,4 @@
-package com.moon0.board.response;
+package com.moon0.board.dto.response;
 
 import com.moon0.board.dto.ArticleCommentDto;
 

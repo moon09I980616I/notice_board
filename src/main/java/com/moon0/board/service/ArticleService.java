@@ -6,6 +6,7 @@ import com.moon0.board.domain.constant.SearchType;
 import com.moon0.board.dto.ArticleDto;
 import com.moon0.board.dto.ArticleWithCommentsDto;
 import com.moon0.board.repository.ArticleRepository;
+import com.moon0.board.repository.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
