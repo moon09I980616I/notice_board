@@ -4,8 +4,8 @@ import com.moon0.board.domain.constant.FormStatus;
 import com.moon0.board.domain.constant.SearchType;
 import com.moon0.board.dto.UserAccountDto;
 import com.moon0.board.dto.request.ArticleRequest;
-import com.moon0.board.response.ArticleResponse;
-import com.moon0.board.response.ArticleWithCommentsResponse;
+import com.moon0.board.dto.response.ArticleResponse;
+import com.moon0.board.dto.response.ArticleWithCommentsResponse;
 import com.moon0.board.service.ArticleService;
 import com.moon0.board.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +83,7 @@ public class ArticleController {
     public String postNewArticle(ArticleRequest articleRequest) {
         // TODO: 인증 정보를 넣어줘야 한다.
         articleService.saveArticle(articleRequest.toDto(UserAccountDto.of(
-                "moon0", "asdf1234", "uno@mail.com", "Uno", "memo", null, null, null, null
+                "moon0", "asdf1234", "moon0@mail.com", "moon0", "memo"
         )));
 
         return "redirect:/articles";
@@ -103,7 +103,7 @@ public class ArticleController {
     public String updateArticle(@PathVariable Long articleId, ArticleRequest articleRequest) {
         // TODO: 인증 정보를 넣어줘야 한다.
         articleService.updateArticle(articleId, articleRequest.toDto(UserAccountDto.of(
-                "moon0", "asdf1234", "uno@mail.com", "Uno", "memo", null, null, null, null
+                "moon0", "asdf1234", "umoon0no@mail.com", "moon0", "memo"
         )));
 
         return "redirect:/articles/" + articleId;
