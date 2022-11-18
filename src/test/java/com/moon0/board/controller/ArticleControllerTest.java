@@ -1,12 +1,16 @@
 package com.moon0.board.controller;
 
 import com.moon0.board.config.SecurityConfig;
-import com.moon0.board.domain.type.SearchType;
+import com.moon0.board.domain.constant.FormStatus;
+import com.moon0.board.domain.constant.SearchType;
+import com.moon0.board.dto.ArticleDto;
 import com.moon0.board.dto.ArticleWithCommentsDto;
 import com.moon0.board.dto.UserAccountDto;
+import com.moon0.board.dto.request.ArticleRequest;
+import com.moon0.board.dto.response.ArticleResponse;
 import com.moon0.board.service.ArticleService;
 import com.moon0.board.service.PaginationService;
-
+import com.moon0.board.util.FormDataEncoder;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,9 +30,10 @@ import java.util.List;
 import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("View 컨트롤러 - 게시글")

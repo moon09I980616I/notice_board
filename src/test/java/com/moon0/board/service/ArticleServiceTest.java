@@ -2,7 +2,7 @@ package com.moon0.board.service;
 
 import com.moon0.board.domain.Article;
 import com.moon0.board.domain.UserAccount;
-import com.moon0.board.domain.type.SearchType;
+import com.moon0.board.domain.constant.SearchType;
 import com.moon0.board.dto.ArticleDto;
 import com.moon0.board.dto.ArticleWithCommentsDto;
 import com.moon0.board.dto.UserAccountDto;
