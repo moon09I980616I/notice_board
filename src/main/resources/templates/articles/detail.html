@@ -12,8 +12,6 @@
     <link href="/css/footer.css" rel="stylesheet">
     <style>
         h1{margin-bottom: 2rem;}
-        #article-content{height:100%;}
-        #article-content>pre{height:100%;}
     </style>
 </head>
 <body style="background: #e9ecef;">
@@ -29,8 +27,11 @@
                 <div class="col-md-10 border-end">
                     <article id="article-content">
                         <pre>본문</pre>
-
                     </article>
+                    <form id="delete-article-form">
+                            <a class="btn btn-primary me-md-2" role="button" id="update-article">수정</a>
+                            <button class="btn btn-danger me-md-2" type="submit">삭제</button>
+                    </form>
                 </div>
                 <div class="col-md-2 mb-3">
                     <section>
