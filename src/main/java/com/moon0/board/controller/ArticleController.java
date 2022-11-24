@@ -27,7 +27,6 @@ public class ArticleController {
     private final ArticleService articleService;
     private final PaginationService paginationService;
 
-
     @GetMapping
     public String articles(
             @RequestParam(required = false) SearchType searchType,
@@ -39,18 +38,19 @@ public class ArticleController {
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
 
         map.addAttribute("articles", articles);
-        map.addAttribute("paginationBarNumbers",barNumbers);
-        map.addAttribute("searchTypes",searchType.values());
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchTypes", SearchType.values());
 
         return "articles/index";
     }
 
     @GetMapping("/{articleId}")
-    public String article(@PathVariable Long articleId, ModelMap map){
+    public String article(@PathVariable Long articleId, ModelMap map) {
         ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticleWithComments(articleId));
-        map.addAttribute("article",article);
+
+        map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentsResponse());
-        map.addAttribute("totalCount",articleService.getArticleCount());
+        map.addAttribute("totalCount", articleService.getArticleCount());
 
         return "articles/detail";
     }
@@ -60,14 +60,15 @@ public class ArticleController {
             @RequestParam(required = false) String searchValue,
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             ModelMap map
-    ){
+    ) {
         Page<ArticleResponse> articles = articleService.searchArticlesViaHashtag(searchValue, pageable).map(ArticleResponse::from);
         List<Integer> barNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
         List<String> hashtags = articleService.getHashtags();
+
         map.addAttribute("articles", articles);
         map.addAttribute("hashtags", hashtags);
-        map.addAttribute("paginationBarNumbers",barNumbers);
-        map.addAttribute("searchType",SearchType.HASHTAG);
+        map.addAttribute("paginationBarNumbers", barNumbers);
+        map.addAttribute("searchType", SearchType.HASHTAG);
 
         return "articles/search-hashtag";
     }
@@ -83,7 +84,7 @@ public class ArticleController {
     public String postNewArticle(ArticleRequest articleRequest) {
         // TODO: 인증 정보를 넣어줘야 한다.
         articleService.saveArticle(articleRequest.toDto(UserAccountDto.of(
-                "moon0", "asdf1234", "moon0@mail.com", "moon0", "memo"
+                "uno", "asdf1234", "uno@mail.com", "Uno", "memo"
         )));
 
         return "redirect:/articles";
@@ -103,7 +104,7 @@ public class ArticleController {
     public String updateArticle(@PathVariable Long articleId, ArticleRequest articleRequest) {
         // TODO: 인증 정보를 넣어줘야 한다.
         articleService.updateArticle(articleId, articleRequest.toDto(UserAccountDto.of(
-                "moon0", "asdf1234", "umoon0no@mail.com", "moon0", "memo"
+                "uno", "asdf1234", "uno@mail.com", "Uno", "memo"
         )));
 
         return "redirect:/articles/" + articleId;
@@ -116,4 +117,5 @@ public class ArticleController {
 
         return "redirect:/articles";
     }
+
 }

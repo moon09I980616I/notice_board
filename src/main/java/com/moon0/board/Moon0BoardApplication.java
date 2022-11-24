@@ -6,10 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationPropertiesScan
 @SpringBootApplication
-public class NoticeBoardProjectApplication {
+public class Moon0BoardApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NoticeBoardProjectApplication.class, args);
+        SpringApplication.run(Moon0BoardApplication.class, args);
     }
 
 }

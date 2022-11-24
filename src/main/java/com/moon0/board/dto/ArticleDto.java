@@ -16,6 +16,7 @@ public record ArticleDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
+
     public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag) {
         return new ArticleDto(null, userAccountDto, title, content, hashtag, null, null, null, null);
     }

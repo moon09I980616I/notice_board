@@ -14,18 +14,19 @@ import java.util.List;
 
 @RepositoryRestResource
 public interface ArticleCommentRepository extends
-        JpaRepository<ArticleComment, Long>
-        , QuerydslPredicateExecutor<ArticleComment>
-        , QuerydslBinderCustomizer<QArticleComment>
-{
+        JpaRepository<ArticleComment, Long>,
+        QuerydslPredicateExecutor<ArticleComment>,
+        QuerydslBinderCustomizer<QArticleComment> {
+
     List<ArticleComment> findByArticle_Id(Long articleId);
 
     @Override
-    default void customize(QuerydslBindings bindings, QArticleComment root){
-        bindings.excludeUnlistedProperties(true); //선택적으로 검색 가능
-        bindings.including(root.content, root.content, root.createdAt, root.createdBy); // 원하는 field 추가
-        bindings.bind(root.content).first(StringExpression::containsIgnoreCase); // 검색 할 때 대소문자 구별 X like %{$v}%'
+    default void customize(QuerydslBindings bindings, QArticleComment root) {
+        bindings.excludeUnlistedProperties(true);
+        bindings.including(root.content, root.createdAt, root.createdBy);
+        bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
         bindings.bind(root.createdAt).first(DateTimeExpression::eq);
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
     }
+
 }

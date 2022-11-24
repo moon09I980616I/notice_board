@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("JPA 연결 테스트")
 @Import(JpaConfig.class)
@@ -51,7 +51,7 @@ class JpaRepositoryTest {
     void givenTestData_whenInserting_thenWorksFine() {
         // Given
         long previousCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("moon0", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("newUno", "pw", null, null, null));
         Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
         // When
@@ -92,4 +92,5 @@ class JpaRepositoryTest {
         assertThat(articleRepository.count()).isEqualTo(previousArticleCount - 1);
         assertThat(articleCommentRepository.count()).isEqualTo(previousArticleCommentCount - deletedCommentsSize);
     }
+
 }

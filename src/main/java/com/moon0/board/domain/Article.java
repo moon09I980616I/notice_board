@@ -3,14 +3,8 @@ package com.moon0.board.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -18,10 +12,10 @@ import java.util.Set;
 @Getter
 @ToString(callSuper = true)
 @Table(indexes = {
-        @Index(columnList="title"),
-        @Index(columnList="hashtag"),
-        @Index(columnList="createdAt"),
-        @Index(columnList="createdBy"),
+        @Index(columnList = "title"),
+        @Index(columnList = "hashtag"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "createdBy")
 })
 @Entity
 public class Article extends AuditingFields {
@@ -30,19 +24,20 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //수정 가능한 것만 setter 처리
     @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId") private UserAccount userAccount; // 유저 정보 (ID)
-    @Setter @Column(nullable = false) private String title; //제목
-    @Setter @Column(nullable = false, length=10000) private String content; //본문
 
-    @Setter private String hashtag; //해시태그 null
+    @Setter @Column(nullable = false) private String title; // 제목
+    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
+
+    @Setter private String hashtag; // 해시태그
 
     @ToString.Exclude
     @OrderBy("createdAt DESC")
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private final Set<ArticleComment> articleComments = new LinkedHashSet<>(); // 중복을 허용하지 않고 리스트를 보여주겠다.
+    private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
-    protected Article(){}
+
+    protected Article() {}
 
     private Article(UserAccount userAccount, String title, String content, String hashtag) {
         this.userAccount = userAccount;
@@ -50,6 +45,7 @@ public class Article extends AuditingFields {
         this.content = content;
         this.hashtag = hashtag;
     }
+
     public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
         return new Article(userAccount, title, content, hashtag);
     }
@@ -65,4 +61,5 @@ public class Article extends AuditingFields {
     public int hashCode() {
         return Objects.hash(id);
     }
+
 }

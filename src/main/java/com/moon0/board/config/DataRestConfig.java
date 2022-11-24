@@ -1,4 +1,5 @@
 package com.moon0.board.config;
+
 import com.moon0.board.domain.UserAccount;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

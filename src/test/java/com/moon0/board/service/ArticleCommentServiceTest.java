@@ -7,6 +7,7 @@ import com.moon0.board.dto.ArticleCommentDto;
 import com.moon0.board.dto.UserAccountDto;
 import com.moon0.board.repository.ArticleCommentRepository;
 import com.moon0.board.repository.ArticleRepository;
+import com.moon0.board.repository.UserAccountRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,31 +31,33 @@ class ArticleCommentServiceTest {
 
     @Mock private ArticleRepository articleRepository;
     @Mock private ArticleCommentRepository articleCommentRepository;
+    @Mock private UserAccountRepository userAccountRepository;
 
-    @DisplayName("게시글 Id로 조회 -> 댓글 리스트 반환")
+    @DisplayName("게시글 ID로 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
-    void givenArticleId_whenSearchingComments_thenReturnsComments(){
-        //Given
+    void givenArticleId_whenSearchingArticleComments_thenReturnsArticleComments() {
+        // Given
         Long articleId = 1L;
         ArticleComment expected = createArticleComment("content");
         given(articleCommentRepository.findByArticle_Id(articleId)).willReturn(List.of(expected));
 
-        //When
+        // When
         List<ArticleCommentDto> actual = sut.searchArticleComments(articleId);
 
-        //Then
+        // Then
         assertThat(actual)
                 .hasSize(1)
                 .first().hasFieldOrPropertyWithValue("content", expected.getContent());
         then(articleCommentRepository).should().findByArticle_Id(articleId);
     }
 
-    @DisplayName("댓글 저장")
+    @DisplayName("댓글 정보를 입력하면, 댓글을 저장한다.")
     @Test
     void givenArticleCommentInfo_whenSavingArticleComment_thenSavesArticleComment() {
         // Given
         ArticleCommentDto dto = createArticleCommentDto("댓글");
         given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
         given(articleCommentRepository.save(any(ArticleComment.class))).willReturn(null);
 
         // When
@@ -62,10 +65,11 @@ class ArticleCommentServiceTest {
 
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
         then(articleCommentRepository).should().save(any(ArticleComment.class));
     }
 
-    @DisplayName("댓글 저장 시 맞는 게시물 없음 -> 경고 로그")
+    @DisplayName("댓글 저장을 시도했는데 맞는 게시글이 없으면, 경고 로그를 찍고 아무것도 안 한다.")
     @Test
     void givenNonexistentArticle_whenSavingArticleComment_thenLogsSituationAndDoesNothing() {
         // Given
@@ -77,10 +81,11 @@ class ArticleCommentServiceTest {
 
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).shouldHaveNoInteractions();
         then(articleCommentRepository).shouldHaveNoInteractions();
     }
 
-    @DisplayName("댓글 수정")
+    @DisplayName("댓글 정보를 입력하면, 댓글을 수정한다.")
     @Test
     void givenArticleCommentInfo_whenUpdatingArticleComment_thenUpdatesArticleComment() {
         // Given
@@ -100,7 +105,7 @@ class ArticleCommentServiceTest {
         then(articleCommentRepository).should().getReferenceById(dto.id());
     }
 
-    @DisplayName("없는 댓글 정보를 수정 -> 경고 로그")
+    @DisplayName("없는 댓글 정보를 수정하려고 하면, 경고 로그를 찍고 아무 것도 안 한다.")
     @Test
     void givenNonexistentArticleComment_whenUpdatingArticleComment_thenLogsWarningAndDoesNothing() {
         // Given
@@ -114,7 +119,7 @@ class ArticleCommentServiceTest {
         then(articleCommentRepository).should().getReferenceById(dto.id());
     }
 
-    @DisplayName("댓글 ID 입력 -> 댓글 삭제")
+    @DisplayName("댓글 ID를 입력하면, 댓글을 삭제한다.")
     @Test
     void givenArticleCommentId_whenDeletingArticleComment_thenDeletesArticleComment() {
         // Given
@@ -128,6 +133,7 @@ class ArticleCommentServiceTest {
         then(articleCommentRepository).should().deleteById(articleCommentId);
     }
 
+
     private ArticleCommentDto createArticleCommentDto(String content) {
         return ArticleCommentDto.of(
                 1L,
@@ -135,24 +141,23 @@ class ArticleCommentServiceTest {
                 createUserAccountDto(),
                 content,
                 LocalDateTime.now(),
-                "moon0",
+                "uno",
                 LocalDateTime.now(),
-                "moon0"
+                "uno"
         );
     }
 
     private UserAccountDto createUserAccountDto() {
         return UserAccountDto.of(
-                1L,
-                "moon0",
+                "uno",
                 "password",
-                "moon0@mail.com",
-                "moon0",
+                "uno@mail.com",
+                "Uno",
                 "This is memo",
                 LocalDateTime.now(),
-                "moon0",
+                "uno",
                 LocalDateTime.now(),
-                "moon0"
+                "uno"
         );
     }
 
@@ -166,10 +171,10 @@ class ArticleCommentServiceTest {
 
     private UserAccount createUserAccount() {
         return UserAccount.of(
-                "moon0",
+                "uno",
                 "password",
-                "moon0@email.com",
-                "moon0",
+                "uno@email.com",
+                "Uno",
                 null
         );
     }
@@ -182,4 +187,5 @@ class ArticleCommentServiceTest {
                 "#java"
         );
     }
+
 }
