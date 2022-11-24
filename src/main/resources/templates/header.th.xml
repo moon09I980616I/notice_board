@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<thlogic>
+    <attr sel="#home" th:href="@{/}" th:classappend="${#request.requestURI.equals('/articles')}? 'active': ''" />
+    <attr sel="#hashtag" th:href="@{/articles/search-hashtag}" th:classappend="${#request.requestURI.equals('/articles/search-hashtag')}? 'active': ''"/>
+</thlogic>
